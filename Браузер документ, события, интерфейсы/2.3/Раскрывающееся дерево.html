@@ -1,0 +1,91 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta charset="utf-8">
+
+  <style>
+    .tree span {
+      cursor: pointer;
+      display: inline;
+    }
+
+    .tree span:hover {
+      font-weight: 700;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+
+  <ul class="tree" id="tree">
+    <li>Животные
+      <ul>
+        <li>Млекопитающие
+          <ul>
+            <li>Коровы</li>
+            <li>Ослы</li>
+            <li>Собаки</li>
+            <li>Тигры</li>
+          </ul>
+        </li>
+        <li>Другие
+          <ul>
+            <li>Змеи</li>
+            <li>Птицы</li>
+            <li>Ящерицы</li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li>Рыбы
+      <ul>
+        <li>Аквариумные
+          <ul>
+            <li>Гуппи</li>
+            <li>Скалярии</li>
+          </ul>
+        </li>
+        <li>Морские
+          <ul>
+            <li>Морская форель</li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+
+  <script>
+
+    for (const li of document.querySelectorAll('li')) {
+      let span = document.createElement('span');
+      span.textContent = li.firstChild.data;
+
+      // delete li title
+      li.firstChild.remove();
+      // add new span tag with title 
+      li.prepend(span)
+    }
+
+    function toggleListChilds(event) {
+      if (event.target.tagName !== 'SPAN') return;
+      let target = event.target.closest('li');
+
+
+      let children = Array.from(target.children).slice(1);
+
+      for (const child of children) {
+        child.classList.toggle('hidden');
+      }
+
+    }
+
+    tree.addEventListener('click', toggleListChilds)
+  </script>
+</body>
+
+</html>

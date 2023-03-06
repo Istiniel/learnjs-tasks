@@ -1,0 +1,55 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <style>
+    .drop-down__title {
+      cursor: pointer;
+    }
+
+    .drop-down__content {
+      opacity: 0.001;
+      pointer-events: none;
+
+      transition: all ease-in-out 0.5s;
+    }
+
+    .drop-down.active .drop-down__content {
+      opacity: 1;
+    }
+
+    .drop-down__arrow::before {
+      content: '▶';
+    }
+
+    .drop-down.active .drop-down__arrow::before {
+      content: '▼';
+    }
+  </style>
+</head>
+
+<body>
+  <div class="drop-down">
+    <h3 class="drop-down__title"><span class="drop-down__arrow"></span> Сладости (нажми меня)!</h3>
+    <ul class="drop-down__content">
+      <li>Пирожное</li>
+      <li>Пончик</li>
+      <li>Мёд</li>
+    </ul>
+  </div>
+
+  <script>
+    let dropDown = document.querySelector('.drop-down');
+    let ddTitle = document.querySelector('.drop-down__title');
+
+
+    function toggleDD(event) {
+      dropDown.classList.toggle('active')
+    }
+
+    ddTitle.addEventListener('click', toggleDD)
+  </script>
+</body>
+
+</html>

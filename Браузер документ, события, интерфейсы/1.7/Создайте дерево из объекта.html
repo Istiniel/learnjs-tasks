@@ -1,0 +1,94 @@
+<!-- Создайте дерево из объекта -->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+</head>
+
+<body>
+
+  <div id="tree"></div>
+
+  <!-- Результат должен быть:
+<div id="tree">
+<ul>
+  <li>Рыбы
+    <ul>
+      <li>форель</li>
+      <li>лосось</li>
+    </ul>
+  </li>
+  <li>Деревья
+    <ul>
+      <li>Огромные
+        <ul>
+          <li>секвойя</li>
+          <li>дуб</li>
+        </ul>
+      </li>
+      <li>Цветковые
+        <ul>
+          <li>яблоня</li>
+          <li>магнолия</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+</div>
+-->
+
+  <script>
+    let data = {
+      "Рыбы": {
+        "форель": {},
+        "лосось": {}
+      },
+
+      "Деревья": {
+        "Огромные": {
+          "секвойя": {},
+          "дуб": {}
+        },
+        "Цветковые": {
+          "яблоня": {},
+          "магнолия": {}
+        }
+      }
+    };
+
+    function createTree(container, data) {
+
+      function createListTree(data) {
+        if (Object.keys(data).length === 0) return '';
+
+        // create new list branch
+        let branch = document.createElement('ul');
+
+        // loop for every object prop in branch
+        for (const listName in data) {
+          let list = document.createElement('li');
+          list.innerHTML = listName;
+
+          let subTree = createListTree(data[listName])
+          list.append(subTree)
+
+          branch.append(list)
+        }
+
+        return branch
+      }
+
+
+      container.append(createListTree(data));
+
+    }
+
+    createTree(document.getElementById('tree'), data);
+  </script>
+
+</body>
+
+</html>

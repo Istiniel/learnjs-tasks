@@ -1,0 +1,66 @@
+<!DOCTYPE HTML>
+<html>
+
+<body>
+
+  <ul>
+    <li>Животные
+      <ul>
+        <li>Млекопитающие
+          <ul>
+            <li>Коровы</li>
+            <li>Ослы</li>
+            <li>Собаки</li>
+            <li>Тигры</li>
+          </ul>
+        </li>
+        <li>Другие
+          <ul>
+            <li>Змеи</li>
+            <li>Птицы</li>
+            <li>Ящерицы</li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li>Рыбы
+      <ul>
+        <li>Аквариумные
+          <ul>
+            <li>Гуппи</li>
+            <li>Скалярии</li>
+          </ul>
+        </li>
+        <li>Морские
+          <ul>
+            <li>Морская форель</li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+
+  <script>
+    let mainUl = document.querySelector('ul');
+
+    function addCount(ul) {
+      for (const li of ul.children) {
+
+        let count = li.querySelectorAll('li').length ? `[${li.querySelectorAll('li').length}]` : '';
+
+        if (li instanceof HTMLLIElement) {
+          li.firstChild.data = li.firstChild.data + count;
+        }
+
+        if (li.children.length) {
+          addCount(li)
+        }
+      }
+    }
+
+    addCount(mainUl)
+  </script>
+
+</body>
+
+</html>

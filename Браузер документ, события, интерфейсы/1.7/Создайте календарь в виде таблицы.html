@@ -1,0 +1,93 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <style>
+    table {
+      border-collapse: collapse;
+    }
+
+    td,
+    th {
+      border: 1px solid black;
+      padding: 3px;
+      text-align: center;
+    }
+
+    th {
+      font-weight: bold;
+      background-color: #E6E6E6;
+    }
+  </style>
+</head>
+
+<body>
+
+
+  <div id="calendar"></div>
+
+  <script>
+    function createCalendar(elem, year, month) {
+      let date = new Date(year, month - 1);
+
+      let table = document.createElement('table');
+
+      let tHead = document.createElement('thead');
+
+      // create tHead 
+      tHead.innerHTML = '<th>пн</th><th>вт</th><th>ср</th><th>чт</th><th>пт</th><th>сб</th><th>вс</th>';
+      table.append(tHead)
+
+      // create tBody
+      let tBody = document.createElement('tbody')
+      let tBodyContent = '<tr>';
+
+
+      // make days from 1 to 7
+      let currentDay = date.getDay() + 1;
+      if (currentDay === 1) {
+        currentDay = 7;
+      } else {
+        currentDay--
+      }
+
+      // add gaps before first day in Month
+      for (let i = 1; i < currentDay; i++) {
+        tBodyContent += `<td></td>`
+      }
+
+      // days in Month
+      let daysInMonth = +(new Date(year, month, 0).getDate());
+
+      for (let i = 1; i <= daysInMonth; i++, currentDay++) {
+        tBodyContent += `<td>${i}</td>`;
+
+
+        if ((currentDay % 7 === 0)) {
+          tBodyContent += `</tr><tr>`;
+        }
+
+      }
+
+      // add empty td after last week if needed
+      currentDay--;
+      while (currentDay % 7 !== 0) {
+        tBodyContent += `<td></td>`;
+        currentDay++;
+      }
+
+      tBodyContent += `</tr>`;
+      tBody.innerHTML = tBodyContent;
+
+      table.append(tBody)
+
+      calendar.append(table)
+    }
+
+
+    createCalendar(calendar, 2012, 9);
+  </script>
+
+</body>
+
+</html>

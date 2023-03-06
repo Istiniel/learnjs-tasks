@@ -1,0 +1,102 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <style>
+    table {
+      border-collapse: collapse;
+    }
+
+    th,
+    td {
+      border: 1px solid black;
+      padding: 4px;
+    }
+
+    th {
+      cursor: pointer;
+    }
+
+    th:hover {
+      background: yellow;
+    }
+  </style>
+</head>
+
+<body>
+  <table id="grid">
+    <thead>
+      <tr>
+        <th data-type="number">Возраст</th>
+        <th data-type="string">Имя</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>5</td>
+        <td>Вася</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>Петя</td>
+      </tr>
+      <tr>
+        <td>12</td>
+        <td>Женя</td>
+      </tr>
+      <tr>
+        <td>9</td>
+        <td>Маша</td>
+      </tr>
+      <tr>
+        <td>1</td>
+        <td>Илья</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <script>
+    let table = document.querySelector('table');
+    let tBody = table.querySelector('tbody')
+
+    function filterByName(rowsArr) {
+      rowsArr = Array.from(rowsArr);
+      let filteredRows = rowsArr.sort((row1, row2) =>
+        (row1.children[1].textContent).localeCompare(row2.children[1].textContent))
+
+      return filteredRows;
+    }
+
+    function filterByAge(rowsArr) {
+      rowsArr = Array.from(rowsArr);
+      let filteredRows = rowsArr.sort((row1, row2) =>
+        +row1.firstElementChild.textContent - +row2.firstElementChild.textContent)
+
+      return filteredRows;
+    }
+
+    function sortBy(event) {
+      if (event.target.tagName !== 'TH') return;
+      target = event.target;
+
+      if (target.dataset.type == 'number') {
+        for (let row of filterByAge(tBody.querySelectorAll('tr'))) {
+          tBody.append(row)
+        }
+      }
+
+      if (target.dataset.type == 'string') {
+        for (let row of filterByName(tBody.querySelectorAll('tr'))) {
+          tBody.append(row)
+        }
+      }
+    }
+
+    document.querySelector('tr').addEventListener('click', sortBy);
+
+  </script>
+
+</body>
+
+</html>

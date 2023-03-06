@@ -1,0 +1,83 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <style>
+    span.hours {
+      color: red;
+    }
+
+    span.minutes {
+      color: green;
+    }
+
+    span.seconds {
+      color: blue;
+    }
+  </style>
+</head>
+
+<body>
+
+  <p class="clock">00:00:00</p>
+
+  <!-- клик по этой кнопке вызовет clockStart() -->
+  <input type="button" onclick="clockStart()" value="Старт">
+
+  <!-- клик по этой кнопке вызовет clockStop() -->
+  <input type="button" onclick="clockStop()" value="Стоп">
+
+
+  <script>
+
+    class Clock {
+      constructor({ output, template }) {
+        this.output = output;
+        this.template = template;
+      }
+
+      render() {
+        let date = new Date();
+
+        let hours = date.getHours();
+        if (hours < 10) hours = '0' + hours;
+
+        let mins = date.getMinutes();
+        if (mins < 10) mins = '0' + mins;
+
+        let secs = date.getSeconds();
+        if (secs < 10) secs = '0' + secs;
+
+        let currentTime = this.template
+          .replace('hrs', `<span class="hours">${hours}</span>`)
+          .replace('mts', `<span class="minutes">${mins}</span>`)
+          .replace('scs', `<span class="seconds">${secs}</span>`);
+
+        output.innerHTML = currentTime;
+      }
+
+      stop() {
+        clearInterval(this.timer);
+      }
+
+      start() {
+        this.render();
+        this.timer = setInterval(() => this.render(), 1000);
+      }
+    }
+    let output = document.querySelector('.clock')
+
+    let clock = new Clock({ output, template: 'hrs:mts:scs' });
+
+    function clockStart() {
+      clock.start();
+    }
+
+    function clockStop() {
+      clock.stop();
+    }
+
+  </script>
+</body>
+
+</html>

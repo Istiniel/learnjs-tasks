@@ -1,0 +1,23 @@
+<!-- ссылка на страница - https://learn.javascript.ru/task/find-elements/table.html -->
+
+<!-- 
+Как найти?…
+
+1. Таблицу с id="age-table".
+2. Все элементы label внутри этой таблицы (их три).
+3. Первый td в этой таблице (со словом «Age»).
+4. Форму form с именем name="search".
+5. Первый input в этой форме.
+6. Последний input в этой форме. 
+
+
+1. document.getElementById('age-table') или просто ageTable (не рекомендуется, возможен конфликт имён)
+2. document.querySelectorAll('label') или table.getElementsByTagName('label')
+3. document.querySelector('td')
+4. document.querySelector('form[name='search']')
+5. let form = document.querySelector('form[name="search"]')
+   let firstInput = form.querySelectorAll('input')[0];
+6. let form = document.querySelector('form[name="search"]')
+   let lastInput = form.querySelectorAll('input')[form.length-1];
+
+-->

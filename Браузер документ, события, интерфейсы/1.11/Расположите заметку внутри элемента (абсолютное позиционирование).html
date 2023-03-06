@@ -1,0 +1,120 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <style>
+    body {
+      height: 2000px;
+    }
+
+    .note {
+      position: absolute;
+      z-index: 1000;
+      padding: 5px;
+      border: 1px solid black;
+      background: white;
+      text-align: center;
+      font: italic 14px serif;
+    }
+
+    blockquote {
+      background: #f9f9f9;
+      border-left: 10px solid #ccc;
+      margin: 0 0 0 100px;
+      padding: .5em 10px;
+      quotes: "\201C" "\201D" "\2018" "\2019";
+      display: inline-block;
+      white-space: pre;
+    }
+
+    blockquote:before {
+      color: #ccc;
+      content: open-quote;
+      font-size: 4em;
+      line-height: .1em;
+      margin-right: .25em;
+      vertical-align: -.4em;
+    }
+  </style>
+</head>
+
+<body>
+
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reprehenderit sint atque dolorum fuga ad incidunt
+    voluptatum error fugiat animi amet! Odio temporibus nulla id unde quaerat dignissimos enim nisi rem provident
+    molestias sit tempore omnis recusandae
+    esse sequi officia sapiente.</p>
+
+  <blockquote>
+    Teacher: Why are you late?
+    Student: There was a man who lost a hundred dollar bill.
+    Teacher: That's nice. Were you helping him look for it?
+    Student: No. I was standing on it.
+  </blockquote>
+
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reprehenderit sint atque dolorum fuga ad incidunt
+    voluptatum error fugiat animi amet! Odio temporibus nulla id unde quaerat dignissimos enim nisi rem provident
+    molestias sit tempore omnis recusandae
+    esse sequi officia sapiente.</p>
+
+
+  <script>
+    // document.documentElement.scrollTo(0, 50);
+    /**
+     * Позиционирует элемент elem относительно элемента anchor в соответствии со значением position.
+     *
+     * @param {Node} anchor     элемент, около которого позиционируется другой элемент
+     * @param {string} position одно из: top/right/bottom
+     * @param {Node} elem       элемент, который позиционируется
+     *
+     * Оба элемента elem и anchor должны присутствовать в документе
+     */
+    function positionAt(anchor, position, elem) {
+      let rect = anchor.getBoundingClientRect();
+
+      let coords = {
+        'top-in': { x: rect.left, y: rect.top + 5 },
+        'top-out': { x: rect.left, y: rect.top - elem.offsetHeight - 5 },
+        'right-in': { x: rect.right - elem.offsetWidth - 5, y: rect.top + (anchor.offsetHeight / 2) - (elem.offsetHeight / 2) },
+        'right-out': { x: rect.right + 5, y: rect.top + (anchor.offsetHeight / 2) - (elem.offsetHeight / 2) },
+        'bottom-in': { x: rect.left, y: rect.bottom - elem.offsetHeight - 5 },
+        'bottom-out': { x: rect.left, y: rect.bottom + 5 },
+      }
+
+      let currentPosition = coords[position];
+
+      elem.style.left = currentPosition.x + pageXOffset + 'px';
+      elem.style.top = currentPosition.y + pageYOffset + 'px';
+
+    }
+
+    /**
+     * Показывает заметку с заданным содержимым на заданной позиции
+     * относительно элемента anchor.
+     */
+    function showNote(anchor, position, html) {
+      let note = document.createElement('div');
+      note.className = "note";
+      note.innerHTML = html;
+      document.body.append(note);
+
+      positionAt(anchor, position, note);
+    }
+
+    // test it
+    let blockquote = document.querySelector('blockquote');
+
+    showNote(blockquote, "top-in", "note top-in");
+    showNote(blockquote, "top-out", "note top-out");
+    showNote(blockquote, "right-in", "note right-in");
+    showNote(blockquote, "right-out", "note right-out");
+    showNote(blockquote, "bottom-in", "note bottom-in");
+    showNote(blockquote, "bottom-out", "note bottom-in");
+
+  </script>
+
+
+</body>
+
+</html>

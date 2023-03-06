@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <style>
+    .arrow {
+      padding: 0;
+      background: #ddd;
+      border-radius: 15px;
+      border: 1px solid gray;
+      font-size: 24px;
+      line-height: 24px;
+      color: #444;
+      display: block;
+    }
+
+    .arrow:focus {
+      outline: none;
+    }
+
+    .arrow:hover {
+      background: #ccc;
+      cursor: pointer;
+    }
+
+    ul {
+      height: 130px;
+      max-width: 9999px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      font-size: 0;
+
+      transition: all ease-out 0.25s;
+    }
+
+    ul img {
+      width: 130px;
+      height: 130px;
+      display: block;
+      /* убираем пустое место вокруг картинок */
+    }
+
+    ul li {
+      display: inline-block;
+      /* убираем пустое место между элементами списка */
+    }
+
+    .slider {
+      padding: 1rem 2rem;
+      background-color: aliceblue;
+      border-radius: 1rem;
+
+      display: flex;
+      flex-wrap: nowrap;
+      width: 480px;
+      align-items: center;
+      justify-content: space-between;
+
+
+    }
+
+    .img-galery {
+      width: 390px;
+      overflow: hidden;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="slider">
+    <button class="arrow arrow-left">⇦</button>
+    <div class="img-galery">
+      <ul class="img-tape">
+        <li><img src="https://ru.js.cx/carousel/1.png"></li>
+        <li><img src="https://ru.js.cx/carousel/2.png"></li>
+        <li><img src="https://ru.js.cx/carousel/3.png"></li>
+        <li><img src="https://ru.js.cx/carousel/4.png"></li>
+        <li><img src="https://ru.js.cx/carousel/5.png"></li>
+        <li><img src="https://ru.js.cx/carousel/6.png"></li>
+        <li><img src="https://ru.js.cx/carousel/7.png"></li>
+        <li><img src="https://ru.js.cx/carousel/8.png"></li>
+        <li><img src="https://ru.js.cx/carousel/9.png"></li>
+        <li><img src="https://ru.js.cx/carousel/10.png"></li>
+      </ul>
+    </div>
+    <button class="arrow arrow-right">⇨</button>
+  </div>
+
+  <script>
+    let imgGalery = document.querySelector('.img-tape');
+    let imgCount = document.querySelectorAll('li').length;
+    let buttonPrev = document.querySelector('.arrow-left');
+    let buttonNext = document.querySelector('.arrow-right');
+
+    let distance = 0; // текущая прокрученная дистанция
+    let step = 130; // ширина 1 изображения
+    let count = 3; // текущее количество прокрученных изображений (включая видимые)
+    const VISIBLE_COUNT = 3; // сколько изображений помещается в ленту
+
+    function moveBack(event) {
+      let freeSpase = count * step - VISIBLE_COUNT * step;
+
+      if (freeSpase >= (step * VISIBLE_COUNT)) {
+        distance += step * VISIBLE_COUNT;
+        count -= VISIBLE_COUNT;
+      } else if (freeSpase < (step * VISIBLE_COUNT)) {
+        distance += freeSpase;
+        count -= freeSpase / step;
+      }
+      imgGalery.style.marginLeft = distance + 'px';
+    }
+
+    function moveForth(event) {
+      let freeSpase = imgCount * step - count * step;
+
+      if (freeSpase > (step * VISIBLE_COUNT)) {
+        distance -= step * VISIBLE_COUNT;
+        count += VISIBLE_COUNT;
+      } else if (freeSpase < (step * VISIBLE_COUNT)) {
+        distance -= freeSpase;
+        count += freeSpase / step;
+      }
+
+      imgGalery.style.marginLeft = distance + 'px';
+    }
+
+    buttonPrev.addEventListener('click', moveBack);
+    buttonNext.addEventListener('click', moveForth);
+
+  </script>
+
+</body>
+
+</html>

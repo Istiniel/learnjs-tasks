@@ -1,0 +1,86 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <style>
+    #field {
+      cursor: pointer;
+      position: relative;
+      width: 200px;
+      height: 150px;
+      border: 10px solid black;
+      background-color: #00FF00;
+      overflow: hidden;
+
+    }
+
+    #ball {
+      position: absolute;
+
+      transition: all ease-in-out 0.5s;
+    }
+  </style>
+</head>
+
+<body style="height:2000px">
+
+  Нажмите на поле для перемещения мяча.
+  <br> Мяч не должен выходить за границы поля.
+
+
+  <div id="field">
+    <img src="https://ru.js.cx/clipart/ball.svg" id="ball" width="30px" height="30px"> . . . . . . . . . . . . . . . . .
+    . . . . . . . . . . . . .
+    . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    . . . . . . . . .
+    . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    . . . . . . . . . . . . . . . . . . . . . .
+  </div>
+
+
+  <script>
+
+    function ballDrag(event) {
+      let fieldFrame = field.getBoundingClientRect();
+
+      let fieldInnerFrame = {
+        left: fieldFrame.left + field.clientLeft,
+        top: fieldFrame.top + field.clientTop,
+        right: fieldFrame.right - field.clientLeft,
+        bottom: fieldFrame.bottom - field.clientTop,
+      }
+
+      let newPosition = {
+        left: event.clientX - fieldInnerFrame.left - ball.offsetWidth / 2,
+        top: event.clientY - fieldInnerFrame.top - ball.offsetHeight / 2,
+      }
+
+
+      function checkBoundaries() {
+        if (newPosition.left < 0) {
+          newPosition.left = 0;
+        }
+        if (newPosition.left >= (field.clientWidth - ball.offsetWidth)) {
+          newPosition.left = field.clientWidth - ball.offsetWidth;
+        }
+        if (newPosition.top < 0) {
+          newPosition.top = 0;
+        }
+        if (newPosition.top > (field.clientHeight - ball.offsetHeight)) {
+          newPosition.top = field.clientHeight - ball.offsetHeight;
+        }
+      }
+
+      checkBoundaries();
+
+      ball.style.left = newPosition.left + 'px';
+      ball.style.top = newPosition.top + 'px';
+    }
+
+    field.addEventListener('click', ballDrag)
+
+  </script>
+</body>
+
+</html>
