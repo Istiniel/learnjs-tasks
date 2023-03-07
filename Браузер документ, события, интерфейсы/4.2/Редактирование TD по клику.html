@@ -1,0 +1,227 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <style>
+    /* общие стили для таблицы, изменять их не нужно */
+
+    th {
+      text-align: center;
+      font-weight: bold;
+    }
+
+    td {
+      width: 150px;
+      white-space: nowrap;
+      text-align: center;
+      vertical-align: middle;
+      padding: 10px;
+    }
+
+    .nw {
+      background-color: #999;
+    }
+
+    .n {
+      background-color: #03f;
+      color: #fff;
+    }
+
+    .ne {
+      background-color: #ff6;
+    }
+
+    .w {
+      background-color: #ff0;
+    }
+
+    .c {
+      background-color: #60c;
+      color: #fff;
+    }
+
+    .e {
+      background-color: #09f;
+      color: #fff;
+    }
+
+    .sw {
+      background-color: #963;
+      color: #fff;
+    }
+
+    .s {
+      background-color: #f60;
+      color: #fff;
+    }
+
+    .se {
+      background-color: #0c3;
+      color: #fff;
+    }
+
+    .editable {
+      width: 170px;
+      height: 92px;
+      border: none;
+      margin: 0;
+      padding: 0;
+      display: block;
+      resize: none;
+      outline: 1px solid black;
+    }
+
+    .buttons {
+      position: absolute;
+
+      display: flex;
+    }
+  </style>
+</head>
+
+<body>
+
+
+
+  <p>Кликните на ячейку таблицы, чтобы отредактировать её. Нажмите ОК или ОТМЕНА, когда закончите.</p>
+
+  <table id="bagua-table">
+    <tr>
+      <th colspan="3">Квадрат <em>Bagua</em>: Направление, Элемент, Цвет, Значение</th>
+    </tr>
+    <tr>
+      <td class="nw"><strong>Северо-Запад</strong>
+        <br>Металл
+        <br>Серебро
+        <br>Старейшины
+      </td>
+      <td class="n"><strong>Север</strong>
+        <br>Вода
+        <br>Синий
+        <br>Перемены
+      </td>
+      <td class="ne"><strong>Северо-Восток</strong>
+        <br>Земля
+        <br>Жёлтый
+        <br>Направление
+      </td>
+    </tr>
+    <tr>
+      <td class="w"><strong>Запад</strong>
+        <br>Металл
+        <br>Золото
+        <br>Молодость
+      </td>
+      <td class="c"><strong>Центр</strong>
+        <br>Всё
+        <br>Пурпурный
+        <br>Гармония
+      </td>
+      <td class="e"><strong>Восток</strong>
+        <br>Дерево
+        <br>Синий
+        <br>Будущее
+      </td>
+    </tr>
+    <tr>
+      <td class="sw"><strong>Юго-Запад</strong>
+        <br>Земля
+        <br>Коричневый
+        <br>Спокойствие
+      </td>
+      <td class="s"><strong>Юг</strong>
+        <br>Огонь
+        <br>Оранжевый
+        <br>Слава
+      </td>
+      <td class="se"><strong>Юго-Восток</strong>
+        <br>Дерево
+        <br>Зеленый
+        <br>Роман
+      </td>
+    </tr>
+
+  </table>
+
+
+  <script>
+    let table = document.querySelector('table');
+    let editTDclassList;
+    table.addEventListener('click', changeTD);
+    document.addEventListener('click', acceptChanges);
+    document.addEventListener('click', denyChanges);
+
+    function changeTD(event) {
+      // return if event.target not a 'TD' tag
+      if (document.querySelector('.buttons')) return;
+      if (event.target.tagName !== 'TD') return;
+      let target = event.target.closest('td');
+      let tdHTML = target.innerHTML;
+
+      // create new textArea
+      let textArea = document.createElement('textarea');
+      textArea.textContent = tdHTML;
+      textArea.classList.add(`editable`);
+
+      // save td class in var
+      editTDclassList = target.classList
+
+      // replace td with new created textarea
+      target.replaceWith(textArea);
+
+      // add edit buttons
+      addButtons(textArea)
+    }
+
+    function addButtons(elem) {
+      let buttonsContainer = document.createElement('div');
+      buttonsContainer.className = 'buttons';
+
+      let buttonsHTML = `
+        <button class="button submit-button">OK</button>
+        <button class="button cancel-button">CANCEL</button>
+      `
+      buttonsContainer.innerHTML = buttonsHTML;
+
+      // place buttons
+      let frame = elem.getBoundingClientRect();
+      buttonsContainer.style.top = frame.bottom + 5 + 'px';
+      buttonsContainer.style.left = frame.left + 'px';
+
+      elem.after(buttonsContainer)
+    }
+
+    function acceptChanges(event) {
+      if (!event.target.classList.contains('submit-button')) return;
+
+      let target = document.querySelector('textarea');
+
+      let td = document.createElement('td');
+      td.innerHTML = target.value;
+      td.classList = editTDclassList;
+      target.replaceWith(td)
+
+      document.querySelector('.buttons').remove()
+    }
+
+    function denyChanges(event) {
+      if (!event.target.classList.contains('cancel-button')) return;
+
+      let target = document.querySelector('textarea');
+      let htmlContent = target.textContent;
+
+
+      let td = document.createElement('td');
+      td.innerHTML = htmlContent;
+      td.classList = editTDclassList;
+      target.replaceWith(td)
+
+      document.querySelector('.buttons').remove();
+    }
+
+  </script>
+
+</body>
+
+</html>

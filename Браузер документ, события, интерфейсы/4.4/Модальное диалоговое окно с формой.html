@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <style>
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      padding: 0;
+      margin: 0;
+
+    }
+
+    #prompt-form {
+      display: inline-block;
+      padding: 5px 5px 5px 70px;
+      width: 200px;
+      border: 1px solid black;
+      background: white url(https://en.js.cx/clipart/prompt.png) no-repeat left 5px;
+      vertical-align: middle;
+
+
+    }
+
+    #prompt-form-container {
+      display: none;
+      background-color: rgba(175, 175, 175, 0.2);
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 9999;
+      width: 100%;
+      height: 100%;
+      text-align: center;
+
+
+    }
+
+    #prompt-form-container:before {
+      display: inline-block;
+      height: 100%;
+      content: '';
+      vertical-align: middle;
+    }
+
+    #prompt-form input[name="text"] {
+      display: block;
+      margin: 5px;
+      width: 180px;
+    }
+
+    .menu {
+      background-color: rgb(182, 182, 182);
+      border-radius: 2rem;
+      margin: 2rem 0 0 2rem;
+      padding: 1rem 2rem;
+      display: flex;
+      width: 20%;
+      align-items: center;
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="menu">
+    <h3>Open modal</h3>
+    <button class="modal-open" type="button">CLICK</button>
+  </div>
+
+  <div id="prompt-form-container">
+    <form id="prompt-form">
+      <div id="prompt-message">Введите что-нибудь...
+        <br>Пожалуйста..
+      </div>
+      <input name="text" type="text">
+      <input type="submit" name="submit" value="Ok">
+      <input type="button" name="cancel" value="Отмена">
+    </form>
+  </div>
+
+  <script>
+    let modalButton = document.querySelector('.modal-open');
+    let form = document.forms[0];
+    let firstFormElement = form.elements[0];
+    let lastFormElement = form.elements[form.elements.length - 1];
+    modalButton.addEventListener('click', openModal)
+
+    lastFormElement.addEventListener('keydown', (e) => {
+      if (e.key == 'Tab' && !e.shiftKey) {
+        firstFormElement.focus();
+        e.preventDefault()
+      }
+    });
+
+    firstFormElement.addEventListener('keydown', (e) => {
+      if (e.key == 'Tab' && e.shiftKey) {
+        lastFormElement.focus();
+        e.preventDefault()
+      }
+    });
+
+    function openModal(event) {
+      document.querySelector('#prompt-form-container').style.display = 'block';
+      document.body.style.overflow = 'hidden';
+
+      form.text.focus();
+    }
+
+    form.elements.submit.addEventListener('click', handleSubmit);
+    form.elements.cancel.addEventListener('click', handleCancel);
+
+    function handleSubmit(event) {
+      if (!form.text.value) {
+        event.preventDefault();
+        return
+      };
+
+      alert(form.text.value)
+      event.preventDefault()
+
+      document.querySelector('#prompt-form-container').style.display = 'none';
+    }
+
+    function handleCancel(event) {
+      document.querySelector('#prompt-form-container').style.display = 'none';
+    }
+
+
+  </script>
+</body>
+
+</html>
