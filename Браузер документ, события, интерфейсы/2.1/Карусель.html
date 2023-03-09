@@ -32,7 +32,7 @@
       list-style: none;
       font-size: 0;
 
-      transition: all ease-out 0.25s;
+      transition: margin-left 0.5s;
     }
 
     ul img {
@@ -64,6 +64,11 @@
     .img-galery {
       width: 390px;
       overflow: hidden;
+    }
+
+    .img-tape {
+      display: flex;
+      align-items: center;
     }
   </style>
 </head>
@@ -115,7 +120,7 @@
     function moveForth(event) {
       let freeSpase = imgCount * step - count * step;
 
-      if (freeSpase > (step * VISIBLE_COUNT)) {
+      if (freeSpase >= (step * VISIBLE_COUNT)) {
         distance -= step * VISIBLE_COUNT;
         count += VISIBLE_COUNT;
       } else if (freeSpase < (step * VISIBLE_COUNT)) {
